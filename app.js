@@ -1,3 +1,5 @@
+// app.js 
+
 const express = require('express');
 const app = express();   
 const port = 3000;
@@ -30,6 +32,22 @@ mongoose.set('strictQuery', true)
 // 2번째 줄과 연관
 app.use('/api', goodsRouter);
 app.use('/api', cartsRouter);
+
+
+// 400 에러처리 미들웨어
+app.use(function (err,req, res, next){
+  res.status(400).send({ message: 'Bad Request'})
+})
+
+// 404 에러처리 미들웨어
+app.use(function (err, req, res, next) {
+res.status(404).send({ message:'Not Found'}) 
+})
+
+// 500 에러처리 미들웨어
+app.use(function (err, req, res, next) {
+res.status(500).send({ message:'Internal Server Error'})
+})
 
 
 app.listen(port, () => {
